@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">device-test</string>
+    <string name="app_name">Device test</string>
+    <string name="title_activity_screen_check_v2">ScreenCheckV2</string>
 </resources>
