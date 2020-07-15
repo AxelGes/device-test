@@ -41,7 +41,6 @@ public class ScreenCheck extends AppCompatActivity {
         subtitle = findViewById(R.id.subTitle);
         image = findViewById(R.id.image);
         continueBtn2 = findViewById(R.id.continueBtn2);
-        continueBtn2.setBackgroundResource(R.drawable.design_rounded_button);
 
         /*if (Cobertura.getActiva() == 1){
             findViewById(R.id.title).setVisibility(View.GONE);
@@ -52,7 +51,6 @@ public class ScreenCheck extends AppCompatActivity {
         } else {*/
 
             continueBtn = findViewById(R.id.continueBtn);
-            continueBtn.setBackgroundResource(R.drawable.design_rounded_button);
             //continueBtn.setOnClickListener(v -> parentActivity.changeCurrentFragment(new ScreenCheckStart()));
 
             continueBtn.setOnClickListener(new View.OnClickListener() {

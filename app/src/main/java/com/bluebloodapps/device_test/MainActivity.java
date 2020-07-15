@@ -41,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             continueBtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
                     Intent in = new Intent(getApplicationContext(), ScreenCheck.class);
                     startActivity(in);
-
                 }
             });
         }
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-        // Error checking that probably isn't needed but I added just in case.
+            // Error checking that probably isn't needed but I added just in case.
         if(level == -1 || scale == -1) {
             return 50.0f;
         }
