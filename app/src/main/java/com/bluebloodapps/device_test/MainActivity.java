@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean bCheckPantalla = false;
 
     private Button continueBtn;
-    TextView screenCheckSubTitle;
+    TextView screenStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +31,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        screenCheckSubTitle = this.findViewById(R.id.screenCheckSubTitle);
+        screenStatus = this.findViewById(R.id.screenText);
         continueBtn = this.findViewById(R.id.continueBtn);
 
 
         if (bCheckPantalla) {
-            screenCheckSubTitle.setText("¡Chequeo Ok!");
-            screenCheckSubTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-        } else {
-            continueBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent in = new Intent(getApplicationContext(), ScreenCheck.class);
-                    startActivity(in);
-                }
+            screenStatus.setText("¡Checkeada!");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        }else{
+            screenStatus.setText("Falta checkeo");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
+
+            findViewById(R.id.screenCard).setOnClickListener(v -> {
+                Intent in = new Intent(this, ScreenCheck.class);
+                startActivity(in);
             });
         }
 
@@ -94,13 +95,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
 
-        if (bCheckPantalla)
-        {
-            screenCheckSubTitle.setText("¡Chequeo Ok!") ;
-            screenCheckSubTitle.setTextColor(ContextCompat.getColor(getApplication(), R.color.colorPrimary));
+        if (bCheckPantalla) {
+            screenStatus.setText("¡Checkeada!");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        }else{
+            screenStatus.setText("Falta checkeo");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
+
+            findViewById(R.id.screenCard).setOnClickListener(v -> {
+                Intent in = new Intent(this, ScreenCheck.class);
+                startActivity(in);
+            });
         }
-        else
-            screenCheckSubTitle.setText("Falta Chequeo") ;
 
         super.onResume();
     }
