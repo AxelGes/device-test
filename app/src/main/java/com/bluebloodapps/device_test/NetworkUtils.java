@@ -13,7 +13,7 @@ public final class NetworkUtils {
 
     private static NetworkUtils instance = null;
 
-    private NetworkUtils(Context context) {
+    public NetworkUtils(Context context) {
         this.context = context;
     }
 

@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean bCheckPantalla = false;
 
-    private Button continueBtn;
-    TextView screenStatus;
+    private Button startTest;
+    TextView screenStatus, signalText, memoryText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +32,59 @@ public class MainActivity extends AppCompatActivity {
 
 
         screenStatus = this.findViewById(R.id.screenText);
-        continueBtn = this.findViewById(R.id.continueBtn);
+        signalText = this.findViewById(R.id.signalText);
+        memoryText = this.findViewById(R.id.memoryText);
+
+        startTest = this.findViewById(R.id.startTest);
 
 
+        startTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getScreenStatus(new ScreenCheck.ScreenCallback() {
+                    @Override
+                    public void onSuccess() {
+                        getScreenStatus(() -> {
+
+                        });
+                        getBatteryStatus();
+                        getStorageStatus();
+                        getSignalStatus();
+                        getSdStorageStatus();
+                    }
+                });
+
+            }
+        });
+
+
+        Log.d(TAG, "onCreate: ");
+    }
+
+    public void getSignalStatus(){
+        NetworkUtils networkUtils = new NetworkUtils(getApplicationContext());
+        if(networkUtils.isNetworkAvailable()){
+            signalText.setText("¡Funcionando!");
+            signalText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        } else{
+            signalText.setText("No funcionando.");
+            signalText.setTextColor(ContextCompat.getColor(this, R.color.red));
+        }
+    }
+
+    public void getScreenStatus(ScreenCheck.ScreenCallback callback){
         if (bCheckPantalla) {
-            screenStatus.setText("¡Checkeada!");
+            screenStatus.setText("¡Funcionando!");
             screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }else{
-            screenStatus.setText("Falta checkeo");
-            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
+            ScreenCheck.setCallback(callback);
 
-            findViewById(R.id.screenCard).setOnClickListener(v -> {
-                Intent in = new Intent(this, ScreenCheck.class);
-                startActivity(in);
-            });
+            Intent in = new Intent(this, ScreenCheck.class);
+            startActivity(in);
         }
+    }
 
-        //get phone info
-
+    public void getStorageStatus(){
         //STORAGE
         @SuppressLint("UsableSpace") float bytesTotal = Environment.getDataDirectory().getTotalSpace();
         float gbTotal = bytesTotal / 1000000000;
@@ -64,19 +99,37 @@ public class MainActivity extends AppCompatActivity {
         TextView storageText = this.findViewById(R.id.storageText);
         storageText.setText(disponibleFloat + "GB de " + totalFloat + "GB");
         if ((totalFloat / 4) > disponibleFloat){
-            storageText.setTextColor(-166025);
+            storageText.setTextColor(ContextCompat.getColor(this, R.color.red));
         }
+    }
 
+    public void getSdStorageStatus(){
+        // SD STORAGE
+        Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+        Boolean isSDSupportedDevice = Environment.isExternalStorageRemovable();
+
+        if(isSDSupportedDevice && isSDPresent)
+        {
+            // yes SD-card is present
+        }
+        else
+        {
+            memoryText.setText("Memoria SD no detectada");
+        }
+    }
+
+    public void getBatteryStatus(){
         //BATTERY
         int batteryLevel = (int) getBatteryLevel();
 
-        TextView batteryText = this.findViewById(R.id.bateryText);
+        TextView batteryText = this.findViewById(R.id.batteryText);
         batteryText.setText(batteryLevel + "%");
         if (batteryLevel < 15){
-            batteryText.setTextColor(-166025);
-        }
+            batteryText.setTextColor(ContextCompat.getColor(this, R.color.red));
+        } else{
+            batteryText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
-        Log.d(TAG, "onCreate: ");
+        }
     }
 
     public float getBatteryLevel() {
@@ -90,24 +143,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return ((float)level / (float)scale) * 100.0f;
-    }
-
-    @Override
-    public void onResume() {
-
-        if (bCheckPantalla) {
-            screenStatus.setText("¡Checkeada!");
-            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }else{
-            screenStatus.setText("Falta checkeo");
-            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
-
-            findViewById(R.id.screenCard).setOnClickListener(v -> {
-                Intent in = new Intent(this, ScreenCheck.class);
-                startActivity(in);
-            });
-        }
-
-        super.onResume();
     }
 }

@@ -24,7 +24,9 @@ public class ScreenCheck extends AppCompatActivity {
     private TextView title;
     private TextView subtitle;
     private ImageView image;
+    private Button finishBtn;
 
+    public static ScreenCallback callback;
 
     private boolean bIniciePrueba=false;
 
@@ -41,6 +43,7 @@ public class ScreenCheck extends AppCompatActivity {
         subtitle = findViewById(R.id.subTitle);
         image = findViewById(R.id.image);
         continueBtn2 = findViewById(R.id.continueBtn2);
+        finishBtn = findViewById(R.id.finishBtn);
 
         /*if (Cobertura.getActiva() == 1){
             findViewById(R.id.title).setVisibility(View.GONE);
@@ -76,6 +79,15 @@ public class ScreenCheck extends AppCompatActivity {
                 continueBtn2.setVisibility(View.GONE);
                 title.setText("¡Excelente!\n\nLa verificación de la pantalla tactil paso la prueba");
                 subtitle.setVisibility(View.GONE);
+
+                finishBtn.setVisibility(View.VISIBLE);
+                finishBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                        callback.onSuccess();
+                    }
+                });
             }
             else
             {
@@ -85,5 +97,17 @@ public class ScreenCheck extends AppCompatActivity {
             }
         }
         super.onResume();
+    }
+
+    public static ScreenCallback getCallback() {
+        return callback;
+    }
+
+    public static void setCallback(ScreenCallback callback) {
+        ScreenCheck.callback = callback;
+    }
+
+    public interface ScreenCallback{
+        void onSuccess();
     }
 }

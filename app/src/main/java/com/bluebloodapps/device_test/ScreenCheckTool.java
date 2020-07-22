@@ -121,7 +121,7 @@ public class ScreenCheckTool extends AppCompatActivity {
                         }
 
                         if (nChecked == nTotalPixels) {
-                            Toast.makeText(ScreenCheckTool.this, "¡Chequeo completo con éxito!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScreenCheckTool.this, "¡Chequeo completado con éxito!", Toast.LENGTH_LONG).show();
                             MainActivity.bCheckPantalla = true;
 
                             ScreenCheckTool.this.finish();

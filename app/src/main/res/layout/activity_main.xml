@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginBottom="@dimen/_50sdp"
-    android:layout_marginTop="@dimen/_50sdp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,6 +12,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginEnd="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_30sdp">
 
         <ImageView
@@ -35,7 +34,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_450sdp"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,10 +69,10 @@
                     android:id="@+id/screenText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="100%"
+                    android:text="Falta checkeo"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
 
@@ -103,10 +102,10 @@
                     android:id="@+id/storageText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="31GB de 64GB"
+                    android:text="Falta checkeo"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
 
@@ -136,10 +135,10 @@
                     android:id="@+id/memoryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="50%"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -174,13 +173,13 @@
                     android:gravity="center"/>
 
                 <TextView
-                    android:id="@+id/bateryText"
+                    android:id="@+id/batteryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="75%"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
 
@@ -210,10 +209,10 @@
                     android:id="@+id/cpuText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="50%"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
 
@@ -236,20 +235,32 @@
                     android:id="@+id/signalTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Red"
+                    android:text="Conectividad"
                     android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/signalText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="55MB"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:gravity="center"/>
+                    android:textColor="@color/grey"/>
 
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/startTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Iniciar prueba general"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"/>
 
 </LinearLayout>
