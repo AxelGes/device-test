@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     public static boolean bCheckPantalla = false;
+    public static boolean bCheckSonido = false;
 
     private Button startTest;
     TextView screenStatus, signalText, memoryText;
@@ -44,13 +45,17 @@ public class MainActivity extends AppCompatActivity {
                 getScreenStatus(new ScreenCheck.ScreenCallback() {
                     @Override
                     public void onSuccess() {
-                        getScreenStatus(() -> {
-
+                        getSoundStatus(new SoundCheck.SoundCallback() {
+                            @Override
+                            public void onSuccess() {
+                                checkScreenStatus();
+                                checkSoundStatus();
+                                getBatteryStatus();
+                                getStorageStatus();
+                                getSignalStatus();
+                                getSdStorageStatus();
+                            }
                         });
-                        getBatteryStatus();
-                        getStorageStatus();
-                        getSignalStatus();
-                        getSdStorageStatus();
                     }
                 });
 
@@ -72,17 +77,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getScreenStatus(ScreenCheck.ScreenCallback callback){
+    public void checkScreenStatus(){
         if (bCheckPantalla) {
             screenStatus.setText("¡Funcionando!");
             screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }else{
-            ScreenCheck.setCallback(callback);
-
-            Intent in = new Intent(this, ScreenCheck.class);
-            startActivity(in);
+            screenStatus.setText("Error en el checkeo");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
         }
     }
+
+    public void getScreenStatus(ScreenCheck.ScreenCallback callback){
+        ScreenCheck.setCallback(callback);
+
+        Intent in = new Intent(this, ScreenCheck.class);
+        startActivity(in);
+    }
+
+    public void checkSoundStatus(){
+        if (bCheckSonido) {
+            screenStatus.setText("¡Funcionando!");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        }else{
+            screenStatus.setText("Error en el checkeo");
+            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
+        }
+    }
+
+    public void getSoundStatus(SoundCheck.SoundCallback callback){
+        SoundCheck.setCallback(callback);
+
+        Intent in = new Intent(this, SoundCheck.class);
+        startActivity(in);
+    }
+
+
 
     public void getStorageStatus(){
         //STORAGE

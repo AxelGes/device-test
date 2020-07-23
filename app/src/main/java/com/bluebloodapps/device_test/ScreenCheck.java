@@ -35,7 +35,6 @@ public class ScreenCheck extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MainActivity.bCheckPantalla =false;
 
         setContentView(R.layout.layout_screen_check_start);
 
