@@ -202,7 +202,7 @@
                     android:id="@+id/cpuTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CPU"
+                    android:text="Sonido"
                     android:gravity="center"/>
 
                 <TextView

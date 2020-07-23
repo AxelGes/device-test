@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean bCheckSonido = false;
 
     private Button startTest;
-    TextView screenStatus, signalText, memoryText;
+    TextView screenStatus, signalText, memoryText, cpuText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         screenStatus = this.findViewById(R.id.screenText);
         signalText = this.findViewById(R.id.signalText);
         memoryText = this.findViewById(R.id.memoryText);
+        cpuText = this.findViewById(R.id.cpuText);
 
         startTest = this.findViewById(R.id.startTest);
 
@@ -96,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkSoundStatus(){
         if (bCheckSonido) {
-            screenStatus.setText("¡Funcionando!");
-            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            cpuText.setText("¡Funcionando!");
+            cpuText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }else{
-            screenStatus.setText("Error en el checkeo");
-            screenStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
+            cpuText.setText("Error en el checkeo");
+            cpuText.setTextColor(ContextCompat.getColor(this, R.color.red));
         }
     }
 
