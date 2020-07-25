@@ -24,6 +24,9 @@
             android:name=".ScreenCheck"
             android:label="@string/title_activity_screen_check_v2" />
         <activity
+            android:name=".SoundCallCheck"
+            android:label="@string/title_activity_screen_check_v2" />
+        <activity
             android:name=".ScreenCheckTool"
             android:label="@string/title_activity_screen_check_v2" />
     </application>

@@ -1,12 +1,9 @@
 package com.bluebloodapps.device_test;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,17 +12,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.util.Random;
 
-public class SoundCheck extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+public class SoundCallCheck extends AppCompatActivity {
 
     public static SoundCallback callback;
 
     Button continueBtn, cancelBtn, retryBtn;
     LinearLayout mainLayout;
     ConstraintLayout testLayout;
+
+    TextView subTitle;
 
     EditText numbersEditText;
 
@@ -40,6 +46,9 @@ public class SoundCheck extends AppCompatActivity {
         testLayout = this.findViewById(R.id.testLayout);
 
         numbersEditText = this.findViewById(R.id.numbersEditText);
+
+        subTitle = this.findViewById(R.id.subTitle);
+        subTitle.setText("¡Escuchá los 3 números que se oyen por el auricular y escribilos en la siguiente pantalla!");
 
         continueBtn = this.findViewById(R.id.continueBtn);
         continueBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,13 +72,13 @@ public class SoundCheck extends AppCompatActivity {
                     public void afterTextChanged(Editable editable) {
                         if (numbersEditText.getText().toString().length() == 3){
                             if (numbersEditText.getText().toString().equals(randomNumber)){
-                                Toast.makeText(SoundCheck.this, "¡Chequeo completado con éxito!", Toast.LENGTH_LONG).show();
-                                MainActivity.bCheckSonido = true;
+                                Toast.makeText(SoundCallCheck.this, "¡Chequeo completado con éxito!", Toast.LENGTH_LONG).show();
+                                MainActivity.bCheckSonidoCall = true;
                                 callback.onSuccess();
                                 finish();
                             } else{
                                 numbersEditText.setText("");
-                                Toast.makeText(SoundCheck.this, "¡Error! Intentelo de nuevo", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SoundCallCheck.this, "¡Error! Intentelo de nuevo", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -81,7 +90,7 @@ public class SoundCheck extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.bCheckSonido = false;
+                MainActivity.bCheckSonidoCall = false;
                 callback.onSuccess();
                 finish();
             }
@@ -152,21 +161,45 @@ public class SoundCheck extends AppCompatActivity {
         }
 
 
-        MediaPlayer mp1 = MediaPlayer.create( this, sounds[0]);
-        mp1.start();
+        MediaPlayer mp1 = new MediaPlayer();
+        try {
+            mp1.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+            mp1.setDataSource(this, Uri.parse("android.resource://com.bluebloodapps.device_test/" + sounds[0]));
+            mp1.prepare();
+            mp1.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mp1.setOnCompletionListener(mediaPlayer -> {
             mp1.release();
-            MediaPlayer mp2 = MediaPlayer.create( getApplicationContext(), sounds[1]);
-            mp2.start();
-            mp2.setOnCompletionListener(mediaPlayer12 -> {
+
+            MediaPlayer mp2 = new MediaPlayer();
+            try {
+                mp2.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+                mp2.setDataSource(this, Uri.parse("android.resource://com.bluebloodapps.device_test/" + sounds[1]));
+                mp2.prepare();
+                mp2.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mp2.setOnCompletionListener(mediaPlayer1 -> {
                 mp2.release();
-                MediaPlayer mp3 = MediaPlayer.create( getApplicationContext(), sounds[2]);
-                mp3.start();
-                mp3.setOnCompletionListener(mediaPlayer1 -> mp3.release());
+                MediaPlayer mp3 = new MediaPlayer();
+                try {
+                    mp3.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+                    mp3.setDataSource(this, Uri.parse("android.resource://com.bluebloodapps.device_test/" + sounds[2]));
+                    mp3.prepare();
+                    mp3.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mp3.setOnCompletionListener(mediaPlayer2 -> {
+                    mp3.release();
+                });
             });
         });
-
 
         randomNumber = randomString;
         Log.d("Random", "RandomNumber: " + randomNumber);
@@ -177,7 +210,7 @@ public class SoundCheck extends AppCompatActivity {
     }
 
     public static void setCallback(SoundCallback callback) {
-        SoundCheck.callback = callback;
+        SoundCallCheck.callback = callback;
     }
 
     public interface SoundCallback{
