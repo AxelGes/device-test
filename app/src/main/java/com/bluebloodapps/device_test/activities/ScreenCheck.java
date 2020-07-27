@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test;
+package com.bluebloodapps.device_test.activities;
 
 
 import android.content.Intent;
@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bluebloodapps.device_test.MainActivity;
 import com.bluebloodapps.device_test.R;
+import com.bluebloodapps.device_test.utils.TestType;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ScreenCheck extends AppCompatActivity {
     private static final String TAG = ScreenCheck.class.getSimpleName();
 
-
-    private MainActivity parentActivity;
+    private static MainActivity mainActivity;
     private Button continueBtn;
     private Button continueBtn2;
     private TextView title;
@@ -34,8 +35,6 @@ public class ScreenCheck extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.layout_screen_check_start);
 
         title = findViewById(R.id.title);
@@ -55,41 +54,31 @@ public class ScreenCheck extends AppCompatActivity {
             continueBtn = findViewById(R.id.continueBtn);
             //continueBtn.setOnClickListener(v -> parentActivity.changeCurrentFragment(new ScreenCheckStart()));
 
-            continueBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
+            continueBtn.setOnClickListener(v -> {
+                bIniciePrueba = true;
+                ScreenCheckTool.setMainActivity(mainActivity);
 
+                Intent in = new Intent(ScreenCheck.this, ScreenCheckTool.class);
+                startActivity(in);
 
-                    bIniciePrueba=true;
-                    Intent in = new Intent(ScreenCheck.this, ScreenCheckTool.class);
-                    startActivity(in);
-
-                }
             });
     }
 
     @Override
     public void onResume() {
-
-        if (bIniciePrueba)
-        {
-            if (MainActivity.bCheckPantalla)
-            {
+        if (bIniciePrueba) {
+            if (MainActivity.isDone(TestType.SCREEN)) {
                 continueBtn.setVisibility(View.GONE);
                 continueBtn2.setVisibility(View.GONE);
                 title.setText("¡Excelente!\n\nLa verificación de la pantalla tactil paso la prueba");
                 subtitle.setVisibility(View.GONE);
 
                 finishBtn.setVisibility(View.VISIBLE);
-                finishBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                        callback.onSuccess();
-                    }
+                finishBtn.setOnClickListener(view -> {
+                    finish();
+                    callback.onSuccess();
                 });
-            }
-            else
-            {
+            } else {
                 continueBtn.setText("Reintentar");
                 title.setText("¡Ups! La verificación de la pantalla tactil no paso la prueba.\nQuizas no lograste completar todos los puntos.\nSi quieres puedes reintentar... ");
                 subtitle.setVisibility(View.GONE);
@@ -108,5 +97,9 @@ public class ScreenCheck extends AppCompatActivity {
 
     public interface ScreenCallback{
         void onSuccess();
+    }
+
+    public static void setMainActivity(MainActivity activity){
+        mainActivity = activity;
     }
 }

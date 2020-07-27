@@ -1,32 +1,36 @@
 package com.bluebloodapps.device_test;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bluebloodapps.device_test.activities.ScreenCheck;
+import com.bluebloodapps.device_test.activities.SoundCallCheck;
+import com.bluebloodapps.device_test.activities.SoundCheck;
+import com.bluebloodapps.device_test.utils.NetworkUtils;
+import com.bluebloodapps.device_test.utils.Status;
+import com.bluebloodapps.device_test.utils.TestType;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
-    public static boolean bCheckPantalla = false;
-    public static boolean bCheckSonido = false;
-    public static boolean bCheckSonidoCall = false;
-
+    public static HashMap<TestType, Status> checksStatus;
 
     private Button startTest;
 
@@ -39,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checksStatus = new HashMap<>();
+
+        calcularPruebas();
+
+        screenText = findViewById(R.id.screenText);
+        hardwareText = findViewById(R.id.hardwareText);
+        storageText = findViewById(R.id.storageText);
+        soundText = findViewById(R.id.soundText);
+        sensorsText = findViewById(R.id.sensorsText);
+        connectivityTest = findViewById(R.id.signalText);
 
         screenTactilCard = this.findViewById(R.id.screenTactilCard);
         screenTactilCard.setOnClickListener(view -> getScreenStatus(() -> checkScreenStatus()));
@@ -61,87 +76,54 @@ public class MainActivity extends AppCompatActivity {
         wifiCard = this.findViewById(R.id.wifiCard);
         wifiCard.setOnClickListener(view -> getSignalStatus());
 
-
-
         //complete test
         startTest = this.findViewById(R.id.startTest);
-        startTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getScreenStatus(new ScreenCheck.ScreenCallback() {
-                    @Override
-                    public void onSuccess() {
-                        getSoundStatus(new SoundCheck.SoundCallback() {
-                            @Override
-                            public void onSuccess() {
-                                getSoundCallStatus(new SoundCallCheck.SoundCallback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        checkScreenStatus();
-                                        checkSoundStatus();
-                                        checkSoundCallStatus();
-                                        getBatteryStatus();
-                                        getStorageStatus();
-                                        getSignalStatus();
-                                        getSdStorageStatus();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+        startTest.setOnClickListener(view -> getScreenStatus(() -> getSoundStatus(() -> getSoundCallStatus(() -> {
+            checkScreenStatus();
+            checkSoundStatus();
+            checkSoundCallStatus();
+            getBatteryStatus();
+            getStorageStatus();
+            getSignalStatus();
+            getSdStorageStatus();
+        }))));
 
-            }
-        });
-
-
-        Log.d(TAG, "onCreate: ");
+        updateLayouts();
     }
 
     public void getSignalStatus(){
-        TextView wifiText = this.findViewById(R.id.wifiText);
-
         NetworkUtils networkUtils = new NetworkUtils(getApplicationContext());
         if(networkUtils.isNetworkAvailable()){
-            wifiText.setText("¡Funcionando!");
-            wifiText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            Status status = new Status("Funcionando", R.color.green, true);
+            updateTestStatus(TestType.NETWORK, status);
         } else{
-            wifiText.setText("No funcionando.");
-            wifiText.setTextColor(ContextCompat.getColor(this, R.color.red));
+            Status status = new Status("No funcionando", R.color.red, true);
+            updateTestStatus(TestType.NETWORK, status);
         }
     }
 
     public void checkScreenStatus(){
         TextView screenTactilText = this.findViewById(R.id.screenTactilText);
-        if (bCheckPantalla) {
-            screenTactilText.setText("¡Funcionando!");
-            screenTactilText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }else{
-            screenTactilText.setText("Error en el checkeo");
-            screenTactilText.setTextColor(ContextCompat.getColor(this, R.color.red));
-        }
+        screenTactilText.setText(checksStatus.get(TestType.SCREEN).message);
+        screenTactilText.setTextColor(checksStatus.get(TestType.SCREEN).color);
     }
 
     public void getScreenStatus(ScreenCheck.ScreenCallback callback){
         ScreenCheck.setCallback(callback);
-
+        ScreenCheck.setMainActivity(this);
         Intent in = new Intent(this, ScreenCheck.class);
         startActivity(in);
     }
 
     public void checkSoundStatus(){
         TextView mainSpeakerText = this.findViewById(R.id.mainSpeakerText);
-        if (bCheckSonido) {
-            mainSpeakerText.setText("¡Funcionando!");
-            mainSpeakerText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }else{
-            mainSpeakerText.setText("Error en el checkeo");
-            mainSpeakerText.setTextColor(ContextCompat.getColor(this, R.color.red));
-        }
+        mainSpeakerText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
+        mainSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_MAIN).color);
     }
 
     public void getSoundStatus(SoundCheck.SoundCallback callback){
         SoundCheck.setCallback(callback);
+        SoundCheck.setMainActivity(this);
 
         Intent in = new Intent(this, SoundCheck.class);
         startActivity(in);
@@ -149,17 +131,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkSoundCallStatus(){
         TextView callSpeakerText = this.findViewById(R.id.callSpeakerText);
-        if (bCheckSonidoCall) {
-            callSpeakerText.setText("¡Funcionando!");
-            callSpeakerText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }else{
-            callSpeakerText.setText("Error en el checkeo");
-            callSpeakerText.setTextColor(ContextCompat.getColor(this, R.color.red));
-        }
+        callSpeakerText.setText(checksStatus.get(TestType.SOUND_CALL).message);
+        callSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_CALL).color);
     }
 
     public void getSoundCallStatus(SoundCallCheck.SoundCallback callback){
         SoundCallCheck.setCallback(callback);
+        SoundCallCheck.setMainActivity(this);
 
         Intent in = new Intent(this, SoundCallCheck.class);
         startActivity(in);
@@ -218,11 +196,54 @@ public class MainActivity extends AppCompatActivity {
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-            // Error checking that probably isn't needed but I added just in case.
         if(level == -1 || scale == -1) {
             return 50.0f;
         }
 
         return ((float)level / (float)scale) * 100.0f;
+    }
+
+    public void calcularPruebas(){
+        for(TestType testType : TestType.values()){
+            if(testType != null){
+                if(!PreferenceManager.getDefaultSharedPreferences(this).contains(testType.toString())){
+                    Status status = new Status("Falta checkeo", R.color.grey_text,false);
+
+                    PreferenceManager.getDefaultSharedPreferences(this).edit().putString(testType.toString(),
+                            status.message + "@@@" + status.color + "@@@" + status.done).apply();
+                    checksStatus.put(testType, status);
+                }else{
+                    String statusObject = PreferenceManager.getDefaultSharedPreferences(this).getString(testType.toString(), "");
+                    Status status = new Status(statusObject.split("@@@")[0],
+                            Integer.parseInt(statusObject.split("@@@")[1]),
+                            Boolean.parseBoolean(statusObject.split("@@@")[2]));
+                    checksStatus.put(testType, status);
+                }
+
+            }
+        }
+    }
+
+    public void updateTestStatus(TestType testType, Status status){
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(testType.toString(),
+                status.message + "@@@" + status.color + "@@@" + status.done).apply();
+        checksStatus.put(testType, status);
+
+        updateLayouts();
+    }
+
+    public static boolean isDone(TestType type){
+        return checksStatus.get(type).done;
+    }
+
+    public void updateLayouts(){
+        screenText.setText(checksStatus.get(TestType.SCREEN).message);
+        screenText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+
+        soundText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
+        soundText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SOUND_MAIN).color));
+
+        connectivityTest.setText(checksStatus.get(TestType.NETWORK).message);
+        connectivityTest.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.NETWORK).color));
     }
 }

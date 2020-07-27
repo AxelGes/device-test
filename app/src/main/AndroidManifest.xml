@@ -12,23 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SoundCheck"></activity>
+        <activity android:name=".activities.SoundCheck"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScreenCheck"
-            android:label="@string/title_activity_screen_check_v2" />
+            android:name=".activities.ScreenCheck"
+            android:label="Test de pantalla" />
         <activity
-            android:name=".SoundCallCheck"
-            android:label="@string/title_activity_screen_check_v2" />
+            android:name=".activities.SoundCallCheck"
+            android:label="Test de sonido" />
         <activity
-            android:name=".ScreenCheckTool"
-            android:label="@string/title_activity_screen_check_v2" />
+            android:name=".activities.ScreenCheckTool"
+            android:label="Test de pantalla" />
     </application>
 
 </manifest>

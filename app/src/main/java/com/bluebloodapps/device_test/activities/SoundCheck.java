@@ -1,10 +1,7 @@
-package com.bluebloodapps.device_test;
+package com.bluebloodapps.device_test.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,11 +14,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bluebloodapps.device_test.MainActivity;
+import com.bluebloodapps.device_test.R;
+import com.bluebloodapps.device_test.utils.Status;
+import com.bluebloodapps.device_test.utils.TestType;
+
 import java.util.Random;
 
 public class SoundCheck extends AppCompatActivity {
 
     public static SoundCallback callback;
+
+    private static MainActivity mainActivity;
 
     Button continueBtn, cancelBtn, retryBtn;
     LinearLayout mainLayout;
@@ -64,7 +68,8 @@ public class SoundCheck extends AppCompatActivity {
                         if (numbersEditText.getText().toString().length() == 3){
                             if (numbersEditText.getText().toString().equals(randomNumber)){
                                 Toast.makeText(SoundCheck.this, "¡Chequeo completado con éxito!", Toast.LENGTH_LONG).show();
-                                MainActivity.bCheckSonido = true;
+                                Status status = new Status("Completado", R.color.green, true);
+                                mainActivity.updateTestStatus(TestType.SOUND_MAIN, status);
                                 callback.onSuccess();
                                 finish();
                             } else{
@@ -78,22 +83,15 @@ public class SoundCheck extends AppCompatActivity {
         });
 
         cancelBtn = this.findViewById(R.id.cancelBtn);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.bCheckSonido = false;
-                callback.onSuccess();
-                finish();
-            }
+        cancelBtn.setOnClickListener(view -> {
+            Status status = new Status("Falta checkeo", R.color.grey_text, false);
+            mainActivity.updateTestStatus(TestType.SOUND_MAIN, status);
+            callback.onSuccess();
+            finish();
         });
 
         retryBtn = this.findViewById(R.id.retryBtn);
-        retryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                generateRandomNumber();
-            }
-        });
+        retryBtn.setOnClickListener(view -> generateRandomNumber());
 
     }
 
@@ -172,12 +170,16 @@ public class SoundCheck extends AppCompatActivity {
         Log.d("Random", "RandomNumber: " + randomNumber);
     }
 
-    public static SoundCallback getCallback(){
+    public SoundCheck.SoundCallback getCallback(){
         return callback;
     }
 
-    public static void setCallback(SoundCallback callback) {
+    public static void setCallback(SoundCheck.SoundCallback callback) {
         SoundCheck.callback = callback;
+    }
+
+    public static void setMainActivity(MainActivity activity){
+        SoundCheck.mainActivity = activity;
     }
 
     public interface SoundCallback{

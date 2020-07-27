@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test;
+package com.bluebloodapps.device_test.utils;
 
 import android.app.Activity;
 import android.content.Context;
