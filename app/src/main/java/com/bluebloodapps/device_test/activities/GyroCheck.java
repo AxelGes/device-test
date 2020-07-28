@@ -78,7 +78,6 @@ public class GyroCheck extends AppCompatActivity implements SensorEventListener 
     }
 
     public class AnimatedView extends androidx.appcompat.widget.AppCompatImageView {
-
         static final int width = 50;
         static final int height = 50;
 
@@ -89,7 +88,6 @@ public class GyroCheck extends AppCompatActivity implements SensorEventListener 
             mDrawable = new ShapeDrawable(new OvalShape());
             mDrawable.getPaint().setColor(0xffffAC23);
             mDrawable.setBounds(x, y, x + width, y + height);
-
         }
 
         @Override
