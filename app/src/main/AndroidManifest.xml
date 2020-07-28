@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +27,14 @@
             android:name=".activities.SoundCallCheck"
             android:label="Test de sonido" />
         <activity
-            android:name=".activities.ScreenCheckTool"
-            android:label="Test de pantalla" />
+        android:name=".activities.ScreenCheckTool"
+        android:label="Test de pantalla" />
+        <activity
+            android:name=".activities.ButtonsHardwareCheck"
+            android:label="Test de Botones" >
+
+        </activity>
+
     </application>
 
 </manifest>

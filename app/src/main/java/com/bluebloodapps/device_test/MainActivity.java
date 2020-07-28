@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bluebloodapps.device_test.activities.ButtonsHardwareCheck;
 import com.bluebloodapps.device_test.activities.ScreenCheck;
 import com.bluebloodapps.device_test.activities.SoundCallCheck;
 import com.bluebloodapps.device_test.activities.SoundCheck;
@@ -34,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startTest;
 
-    private TextView screenText, hardwareText, storageText, soundText, sensorsText, connectivityTest;
+    private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, sensor1Text, wifiText, buttonsText;
 
-    private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard;
+    private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard, buttonsCard;
 
+    public static boolean buttonsHardwareCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         calcularPruebas();
 
-        screenText = findViewById(R.id.screenText);
-        hardwareText = findViewById(R.id.hardwareText);
-        storageText = findViewById(R.id.storageText);
-        soundText = findViewById(R.id.soundText);
-        sensorsText = findViewById(R.id.sensorsText);
-        connectivityTest = findViewById(R.id.signalText);
+        screenTactilText = findViewById(R.id.screenTactilText);
+        batteryText = findViewById(R.id.batteryText);
+        localStorageText = findViewById(R.id.localStorageText);
+        externalStorageText = findViewById(R.id.externalStorageText);
+        mainSpeakerText = findViewById(R.id.mainSpeakerText);
+        callSpeakerText = findViewById(R.id.callSpeakerText);
+        sensor1Text = findViewById(R.id.sensor1Text);
+        wifiText = findViewById(R.id.wifiText);
+        buttonsText = findViewById(R.id.buttonsText);
 
         screenTactilCard = this.findViewById(R.id.screenTactilCard);
         screenTactilCard.setOnClickListener(view -> getScreenStatus(() -> checkScreenStatus()));
@@ -76,34 +81,56 @@ public class MainActivity extends AppCompatActivity {
         wifiCard = this.findViewById(R.id.wifiCard);
         wifiCard.setOnClickListener(view -> getSignalStatus());
 
+        buttonsCard = this.findViewById(R.id.buttonsCard);
+        buttonsCard.setOnClickListener(view -> getButtonsStatus(() -> checkButtonsStatus()));
+
         //complete test
         startTest = this.findViewById(R.id.startTest);
-        startTest.setOnClickListener(view -> getScreenStatus(() -> getSoundStatus(() -> getSoundCallStatus(() -> {
+        startTest.setOnClickListener(view -> getScreenStatus(() -> getSoundStatus(() -> getSoundCallStatus(() -> getButtonsStatus(() ->{
             checkScreenStatus();
             checkSoundStatus();
+            checkButtonsStatus();
             checkSoundCallStatus();
             getBatteryStatus();
             getStorageStatus();
             getSignalStatus();
             getSdStorageStatus();
-        }))));
+        })))));
 
+        updateLayouts();
+    }
+
+    public void getButtonsStatus(ButtonsHardwareCheck.ButtonsHardwareCallback callback){
+        ButtonsHardwareCheck.setCallback(callback);
+        ButtonsHardwareCheck.setMainActivity(this);
+
+        Intent in = new Intent(this, ButtonsHardwareCheck.class);
+        startActivity(in);
+    }
+
+    public void checkButtonsStatus(){
+        if (buttonsHardwareCheck){
+            Status status = new Status("Funcionando", R.color.green, true);
+            updateTestStatus(TestType.BUTTONS_HARDWARE, status);
+        } else{
+            Status status = new Status("Falta checkeo", R.color.grey, true);
+            updateTestStatus(TestType.BUTTONS_HARDWARE, status);
+        }
         updateLayouts();
     }
 
     public void getSignalStatus(){
         NetworkUtils networkUtils = new NetworkUtils(getApplicationContext());
         if(networkUtils.isNetworkAvailable()){
-            Status status = new Status("Funcionando", R.color.green, true);
-            updateTestStatus(TestType.NETWORK, status);
+            Status status = new Status("Completado", R.color.green, true);
+            updateTestStatus(TestType.WIFI, status);
         } else{
-            Status status = new Status("No funcionando", R.color.red, true);
-            updateTestStatus(TestType.NETWORK, status);
+            Status status = new Status("Falta checkeo", R.color.grey, true);
+            updateTestStatus(TestType.WIFI, status);
         }
     }
 
     public void checkScreenStatus(){
-        TextView screenTactilText = this.findViewById(R.id.screenTactilText);
         screenTactilText.setText(checksStatus.get(TestType.SCREEN).message);
         screenTactilText.setTextColor(checksStatus.get(TestType.SCREEN).color);
     }
@@ -116,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkSoundStatus(){
-        TextView mainSpeakerText = this.findViewById(R.id.mainSpeakerText);
         mainSpeakerText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
         mainSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_MAIN).color);
     }
@@ -130,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkSoundCallStatus(){
-        TextView callSpeakerText = this.findViewById(R.id.callSpeakerText);
         callSpeakerText.setText(checksStatus.get(TestType.SOUND_CALL).message);
         callSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_CALL).color);
     }
@@ -155,11 +180,15 @@ public class MainActivity extends AppCompatActivity {
         BigDecimal disponible = new BigDecimal(Float.toString(gbAvailable));
         float disponibleFloat = disponible.setScale(2, RoundingMode.DOWN).floatValue();
 
-        TextView storageText = this.findViewById(R.id.localStorageText);
-        storageText.setText(disponibleFloat + "GB de " + totalFloat + "GB");
+
         if ((totalFloat / 4) > disponibleFloat){
-            storageText.setTextColor(ContextCompat.getColor(this, R.color.red));
+            Status status = new Status(disponibleFloat + "GB de " + totalFloat + "GB", R.color.red, true);
+            updateTestStatus(TestType.LOCAL_STORAGE, status);
+        } else{
+            Status status = new Status(disponibleFloat + "GB de " + totalFloat + "GB", R.color.green, true);
+            updateTestStatus(TestType.LOCAL_STORAGE, status);
         }
+        updateLayouts();
     }
 
     public void getSdStorageStatus(){
@@ -173,9 +202,10 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            TextView externalStorageText = this.findViewById(R.id.externalStorageText);
-            externalStorageText.setText("Memoria SD no detectada");
+            Status status = new Status("Memoria SD no detectada", R.color.grey, true);
+            updateTestStatus(TestType.EXTERNAL_STORAGE, status);
         }
+        updateLayouts();
     }
 
     public void getBatteryStatus(){
@@ -185,10 +215,13 @@ public class MainActivity extends AppCompatActivity {
         TextView batteryText = this.findViewById(R.id.batteryText);
         batteryText.setText(batteryLevel + "%");
         if (batteryLevel < 15){
-            batteryText.setTextColor(ContextCompat.getColor(this, R.color.red));
+            Status status = new Status(batteryLevel + "%", R.color.red, true);
+            updateTestStatus(TestType.BATTERY, status);
         } else{
-            batteryText.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            Status status = new Status(batteryLevel + "%", R.color.green, true);
+            updateTestStatus(TestType.BATTERY, status);
         }
+        updateLayouts();
     }
 
     public float getBatteryLevel() {
@@ -237,13 +270,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateLayouts(){
-        screenText.setText(checksStatus.get(TestType.SCREEN).message);
-        screenText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        screenTactilText.setText(checksStatus.get(TestType.SCREEN).message);
+        screenTactilText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
 
-        soundText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
-        soundText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SOUND_MAIN).color));
+        batteryText.setText(checksStatus.get(TestType.SCREEN).message);
+        batteryText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
 
-        connectivityTest.setText(checksStatus.get(TestType.NETWORK).message);
-        connectivityTest.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.NETWORK).color));
+        localStorageText.setText(checksStatus.get(TestType.SCREEN).message);
+        localStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+
+        externalStorageText.setText(checksStatus.get(TestType.SCREEN).message);
+        externalStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+
+        mainSpeakerText.setText(checksStatus.get(TestType.SCREEN).message);
+        mainSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+
+        callSpeakerText.setText(checksStatus.get(TestType.SCREEN).message);
+        callSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+
+        wifiText.setText(checksStatus.get(TestType.SCREEN).message);
+        wifiText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
     }
 }
