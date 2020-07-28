@@ -34,7 +34,6 @@
             android:label="Test de Botones" >
 
         </activity>
-
     </application>
 
 </manifest>

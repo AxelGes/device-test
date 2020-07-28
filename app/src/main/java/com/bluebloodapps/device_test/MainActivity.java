@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard, buttonsCard;
 
-    public static boolean buttonsHardwareCheck;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,14 +107,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkButtonsStatus(){
-        if (buttonsHardwareCheck){
-            Status status = new Status("Funcionando", R.color.green, true);
-            updateTestStatus(TestType.BUTTONS_HARDWARE, status);
-        } else{
-            Status status = new Status("Falta checkeo", R.color.grey, true);
-            updateTestStatus(TestType.BUTTONS_HARDWARE, status);
-        }
-        updateLayouts();
+        buttonsText.setText(checksStatus.get(TestType.BUTTONS_HARDWARE).message);
+        buttonsText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.BUTTONS_HARDWARE).color));
     }
 
     public void getSignalStatus(){
@@ -273,22 +265,25 @@ public class MainActivity extends AppCompatActivity {
         screenTactilText.setText(checksStatus.get(TestType.SCREEN).message);
         screenTactilText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
 
-        batteryText.setText(checksStatus.get(TestType.SCREEN).message);
-        batteryText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        batteryText.setText(checksStatus.get(TestType.BATTERY).message);
+        batteryText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.BATTERY).color));
 
-        localStorageText.setText(checksStatus.get(TestType.SCREEN).message);
-        localStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        localStorageText.setText(checksStatus.get(TestType.LOCAL_STORAGE).message);
+        localStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.LOCAL_STORAGE).color));
 
-        externalStorageText.setText(checksStatus.get(TestType.SCREEN).message);
-        externalStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        externalStorageText.setText(checksStatus.get(TestType.EXTERNAL_STORAGE).message);
+        externalStorageText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.EXTERNAL_STORAGE).color));
 
-        mainSpeakerText.setText(checksStatus.get(TestType.SCREEN).message);
-        mainSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        mainSpeakerText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
+        mainSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SOUND_MAIN).color));
 
-        callSpeakerText.setText(checksStatus.get(TestType.SCREEN).message);
-        callSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        callSpeakerText.setText(checksStatus.get(TestType.SOUND_CALL).message);
+        callSpeakerText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SOUND_CALL).color));
 
-        wifiText.setText(checksStatus.get(TestType.SCREEN).message);
-        wifiText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SCREEN).color));
+        wifiText.setText(checksStatus.get(TestType.WIFI).message);
+        wifiText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.WIFI).color));
+
+        buttonsText.setText(checksStatus.get(TestType.BUTTONS_HARDWARE).message);
+        buttonsText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.BUTTONS_HARDWARE).color));
     }
 }

@@ -1,5 +1,7 @@
 package com.bluebloodapps.device_test.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,7 +27,7 @@ import java.util.Random;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class ButtonsHardwareCheck extends AppCompatActivity {
+public class ButtonsHardwareCheck extends Activity {
 
     public static ButtonsHardwareCallback callback;
 
@@ -37,14 +39,10 @@ public class ButtonsHardwareCheck extends AppCompatActivity {
     ConstraintLayout testLayout;
     ImageView image;
 
-    Boolean volumeUpBtn = false;
-    Boolean volumeDownBtn = false;
-    Boolean powerBtn = false;
-
-
-    EditText numbersEditText;
-
-    String randomNumber;
+    boolean volumeUpBtn = false;
+    boolean volumeDownBtn = false;
+    boolean powerBtn = false;
+    boolean locked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,21 +88,40 @@ public class ButtonsHardwareCheck extends AppCompatActivity {
                 }
                 Log.d("BOTON", "volumen down: ");
                 break;
-            case KeyEvent.KEYCODE_POWER:
-                if (volumeUpBtn && volumeDownBtn && !powerBtn){
-                    powerBtn = true;
-                    mainActivity.buttonsHardwareCheck = true;
-                    callback.onSuccess();
-                    finish();
-                    return true;
-                }
-                Log.d("BOTON", "power: ");
-                break;
         }
 
         return super.onKeyDown(keycode, e);
     }
 
+    @Override
+    protected void onPause() {
+        if (volumeUpBtn && volumeDownBtn && !powerBtn){
+            locked = true;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (volumeUpBtn && volumeDownBtn && !powerBtn && locked){
+            powerBtn = true;
+            locked = false;
+            showSuccessLayout();
+        }
+        super.onResume();
+    }
+
+    private void showSuccessLayout(){
+        image.setImageResource(R.drawable.tick_02);
+        cancelBtn.setText("Siguiente");
+        subTitle.setText("¡Prueba realizada correctamente! Todos los botones funcionan.");
+        cancelBtn.setOnClickListener(view -> {
+            Status status = new Status("Funcionando", R.color.green, true);
+            mainActivity.updateTestStatus(TestType.BUTTONS_HARDWARE, status);
+            callback.onSuccess();
+            finish();
+        });
+    }
 
     public ButtonsHardwareCheck.ButtonsHardwareCallback getCallback(){
         return callback;
