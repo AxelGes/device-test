@@ -13,11 +13,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.Menu;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bluebloodapps.device_test.R;
 
@@ -26,6 +26,9 @@ public class GyroCheck extends AppCompatActivity implements SensorEventListener 
     private Sensor accelerometer;
     private long lastUpdate;
 
+    //0 = topLeft | 1 = topRight | 2 = bottomLeft | 3 = bottomRight | 4 = center
+    private boolean[] steps = new boolean[5];
+
     public float xmax,ymax;
 
     AnimatedView animatedView = null;
@@ -33,21 +36,23 @@ public class GyroCheck extends AppCompatActivity implements SensorEventListener 
     public static int x;
     public static int y;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_gyroscope);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         lastUpdate = System.currentTimeMillis();
 
         animatedView = new AnimatedView(this);
-        setContentView(animatedView);
+        animatedView.setElevation(10F);
+        ((FrameLayout)findViewById(R.id.relativeLayout)).addView(animatedView);
 
         Display display = getWindowManager().getDefaultDisplay();
         xmax = (float)display.getWidth() - 50;
-        ymax = (float)display.getHeight() - 50;
+        ymax = (float)display.getHeight() - 320;
     }
 
     @Override
