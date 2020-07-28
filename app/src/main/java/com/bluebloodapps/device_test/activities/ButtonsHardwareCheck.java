@@ -2,6 +2,7 @@ package com.bluebloodapps.device_test.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.shapes.OvalShape;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ButtonsHardwareCheck extends Activity {
 
-    public static ButtonsHardwareCallback callback;
+    public static MainActivity.TestCallback callback;
 
     private static MainActivity mainActivity;
 
@@ -123,19 +124,15 @@ public class ButtonsHardwareCheck extends Activity {
         });
     }
 
-    public ButtonsHardwareCheck.ButtonsHardwareCallback getCallback(){
+    public MainActivity.TestCallback getCallback(){
         return callback;
     }
 
-    public static void setCallback(ButtonsHardwareCheck.ButtonsHardwareCallback callback) {
+    public static void setCallback(MainActivity.TestCallback callback) {
         ButtonsHardwareCheck.callback = callback;
     }
 
     public static void setMainActivity(MainActivity activity){
         ButtonsHardwareCheck.mainActivity = activity;
-    }
-
-    public interface ButtonsHardwareCallback{
-        void onSuccess();
     }
 }

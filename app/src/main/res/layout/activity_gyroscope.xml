@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Para testear el estado del giroscopio, rotá tu celular en todos sus ejes"
+        android:gravity="center"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X: "
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:textStyle="bold"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+    <TextView
+        android:id="@+id/xValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/textX"
+        app:layout_constraintBottom_toBottomOf="@id/textX"/>
+    <TextView
+        android:id="@+id/textY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Y: "
+        android:textColor="@color/colorAccent"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:textStyle="bold"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textX"/>
+    <TextView
+        android:id="@+id/yValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/textX"
+        app:layout_constraintBottom_toBottomOf="@id/textY"/>
+    <TextView
+        android:id="@+id/textZ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Z: "
+        android:textColor="@color/colorAccent"
+        android:layout_marginStart="@dimen/_60sdp"
+        android:textStyle="bold"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textY"/>
+    <TextView
+        android:id="@+id/zValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_26ssp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/textX"
+        app:layout_constraintBottom_toBottomOf="@id/textZ"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

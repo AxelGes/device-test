@@ -27,8 +27,11 @@
             android:name=".activities.SoundCallCheck"
             android:label="Test de sonido" />
         <activity
-        android:name=".activities.ScreenCheckTool"
-        android:label="Test de pantalla" />
+            android:name=".activities.GyroCheck"
+            android:label="Test de pantalla" />
+        <activity
+            android:name=".activities.ScreenCheckTool"
+            android:label="Test de pantalla" />
         <activity
             android:name=".activities.ButtonsHardwareCheck"
             android:label="Test de Botones" >

@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class SoundCheck extends AppCompatActivity {
 
-    public static SoundCallback callback;
+    public static MainActivity.TestCallback callback;
 
     private static MainActivity mainActivity;
 
@@ -170,19 +170,15 @@ public class SoundCheck extends AppCompatActivity {
         Log.d("Random", "RandomNumber: " + randomNumber);
     }
 
-    public SoundCheck.SoundCallback getCallback(){
+    public MainActivity.TestCallback getCallback(){
         return callback;
     }
 
-    public static void setCallback(SoundCheck.SoundCallback callback) {
+    public static void setCallback(MainActivity.TestCallback callback) {
         SoundCheck.callback = callback;
     }
 
     public static void setMainActivity(MainActivity activity){
         SoundCheck.mainActivity = activity;
-    }
-
-    public interface SoundCallback{
-        void onSuccess();
     }
 }

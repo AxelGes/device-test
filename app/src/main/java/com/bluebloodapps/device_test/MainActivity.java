@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bluebloodapps.device_test.activities.ButtonsHardwareCheck;
+import com.bluebloodapps.device_test.activities.GyroCheck;
 import com.bluebloodapps.device_test.activities.ScreenCheck;
 import com.bluebloodapps.device_test.activities.SoundCallCheck;
 import com.bluebloodapps.device_test.activities.SoundCheck;
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startTest;
 
-    private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, sensor1Text, wifiText, buttonsText;
+    private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, gyroText, wifiText, buttonsText;
 
-    private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard, buttonsCard;
+    private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard, buttonsCard, gyroCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         externalStorageText = findViewById(R.id.externalStorageText);
         mainSpeakerText = findViewById(R.id.mainSpeakerText);
         callSpeakerText = findViewById(R.id.callSpeakerText);
-        sensor1Text = findViewById(R.id.sensor1Text);
+        gyroText = findViewById(R.id.gyroText);
         wifiText = findViewById(R.id.wifiText);
         buttonsText = findViewById(R.id.buttonsText);
 
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         buttonsCard = this.findViewById(R.id.buttonsCard);
         buttonsCard.setOnClickListener(view -> getButtonsStatus(() -> checkButtonsStatus()));
 
+        gyroCard = findViewById(R.id.gyroCard);
+        gyroCard.setOnClickListener(view -> getGyroscopeStatus(() -> checkGyroscope()));
+
         //complete test
         startTest = this.findViewById(R.id.startTest);
         startTest.setOnClickListener(view -> getScreenStatus(() -> getSoundStatus(() -> getSoundCallStatus(() -> getButtonsStatus(() ->{
@@ -98,7 +102,20 @@ public class MainActivity extends AppCompatActivity {
         updateLayouts();
     }
 
-    public void getButtonsStatus(ButtonsHardwareCheck.ButtonsHardwareCallback callback){
+    public void getGyroscopeStatus(TestCallback callback){
+        //GyroCheck.setCallback(callback);
+        //GyroCheck.setMainActivity(this);
+
+        Intent in = new Intent(this, GyroCheck.class);
+        startActivity(in);
+    }
+
+    public void checkGyroscope(){
+        gyroText.setText(checksStatus.get(TestType.SENSOR_GYRO).message);
+        gyroText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.SENSOR_GYRO).color));
+    }
+
+    public void getButtonsStatus(TestCallback callback){
         ButtonsHardwareCheck.setCallback(callback);
         ButtonsHardwareCheck.setMainActivity(this);
 
@@ -139,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         mainSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_MAIN).color);
     }
 
-    public void getSoundStatus(SoundCheck.SoundCallback callback){
+    public void getSoundStatus(TestCallback callback){
         SoundCheck.setCallback(callback);
         SoundCheck.setMainActivity(this);
 
@@ -230,22 +247,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void calcularPruebas(){
         for(TestType testType : TestType.values()){
-            if(testType != null){
-                if(!PreferenceManager.getDefaultSharedPreferences(this).contains(testType.toString())){
-                    Status status = new Status("Falta checkeo", R.color.grey_text,false);
+            if(!PreferenceManager.getDefaultSharedPreferences(this).contains(testType.toString())){
+                Status status = new Status("Falta checkeo", R.color.grey_text,false);
 
-                    PreferenceManager.getDefaultSharedPreferences(this).edit().putString(testType.toString(),
-                            status.message + "@@@" + status.color + "@@@" + status.done).apply();
-                    checksStatus.put(testType, status);
-                }else{
-                    String statusObject = PreferenceManager.getDefaultSharedPreferences(this).getString(testType.toString(), "");
-                    Status status = new Status(statusObject.split("@@@")[0],
-                            Integer.parseInt(statusObject.split("@@@")[1]),
-                            Boolean.parseBoolean(statusObject.split("@@@")[2]));
-                    checksStatus.put(testType, status);
-                }
-
+                PreferenceManager.getDefaultSharedPreferences(this).edit().putString(testType.toString(),
+                        status.message + "@@@" + status.color + "@@@" + status.done).apply();
+                checksStatus.put(testType, status);
+            }else{
+                String statusObject = PreferenceManager.getDefaultSharedPreferences(this).getString(testType.toString(), "");
+                Status status = new Status(statusObject.split("@@@")[0],
+                        Integer.parseInt(statusObject.split("@@@")[1]),
+                        Boolean.parseBoolean(statusObject.split("@@@")[2]));
+                checksStatus.put(testType, status);
             }
+
         }
     }
 
@@ -285,5 +300,9 @@ public class MainActivity extends AppCompatActivity {
 
         buttonsText.setText(checksStatus.get(TestType.BUTTONS_HARDWARE).message);
         buttonsText.setTextColor(ContextCompat.getColor(this, checksStatus.get(TestType.BUTTONS_HARDWARE).color));
+    }
+
+    public interface TestCallback{
+        void onSuccess();
     }
 }

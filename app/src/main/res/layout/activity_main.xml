@@ -749,7 +749,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/sensor1Display"
+            android:id="@+id/gyroDisplay"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -758,7 +758,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/sensor1Card"
+                android:id="@+id/gyroCard"
                 android:layout_weight="1"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
@@ -766,14 +766,14 @@
                 tools:ignore="NestedWeights" />
 
             <TextView
-                android:id="@+id/sensor1Title"
+                android:id="@+id/gyroTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sensor1"
+                android:text="Giroscopio"
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/sensor1Text"
+                android:id="@+id/gyroText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Falta checkeo"
