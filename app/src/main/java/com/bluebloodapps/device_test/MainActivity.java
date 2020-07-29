@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getGyroscopeStatus(TestCallback callback){
-        //GyroCheck.setCallback(callback);
-        //GyroCheck.setMainActivity(this);
+        GyroCheck.setCallback(callback);
+        GyroCheck.setMainActivity(this);
 
         Intent in = new Intent(this, GyroCheck.class);
         startActivity(in);
