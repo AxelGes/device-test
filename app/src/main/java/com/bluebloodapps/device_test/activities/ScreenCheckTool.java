@@ -125,7 +125,7 @@ public class ScreenCheckTool extends AppCompatActivity {
                         Status status = new Status("Completado", R.color.green, true);
                         mainActivity.updateTestStatus(TestType.SCREEN, status);
 
-                        ScreenCheckTool.this.finish();
+                        finish();
                     }
                     return true;
                 });

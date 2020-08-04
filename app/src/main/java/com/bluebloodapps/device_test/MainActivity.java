@@ -38,7 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, gyroText, wifiText, buttonsText;
 
-    private ImageView screenTactilCard, batteryCard, localStorageCard, externalStorageCard, mainSpeakerCard, callSpeakerCard, wifiCard, buttonsCard, gyroCard;
+    private ImageView batteryCard;
+    private ImageView localStorageCard;
+    private ImageView externalStorageCard;
+    private ImageView mainSpeakerCard;
+    private ImageView callSpeakerCard;
+    private ImageView wifiCard;
+    private ImageView buttonsCard;
+    private ImageView gyroCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +66,20 @@ public class MainActivity extends AppCompatActivity {
         wifiText = findViewById(R.id.wifiText);
         buttonsText = findViewById(R.id.buttonsText);
 
-        screenTactilCard = this.findViewById(R.id.screenTactilCard);
+        ImageView screenTactilCard = this.findViewById(R.id.screenTactilCard);
         screenTactilCard.setOnClickListener(view -> getScreenStatus(() -> checkScreenStatus()));
 
         batteryCard = this.findViewById(R.id.batteryCard);
         batteryCard.setOnClickListener(view -> getBatteryStatus());
+        getBatteryStatus();
 
         localStorageCard = this.findViewById(R.id.localStorageCard);
         localStorageCard.setOnClickListener(view -> getStorageStatus());
+        getStorageStatus();
 
         externalStorageCard = this.findViewById(R.id.externalStorageCard);
         externalStorageCard.setOnClickListener(view -> getSdStorageStatus());
+        getSdStorageStatus();
 
         mainSpeakerCard = this.findViewById(R.id.mainSpeakerCard);
         mainSpeakerCard.setOnClickListener(view -> getSoundStatus(() -> checkSoundStatus()));
@@ -79,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         wifiCard = this.findViewById(R.id.wifiCard);
         wifiCard.setOnClickListener(view -> getSignalStatus());
+        getSignalStatus();
 
         buttonsCard = this.findViewById(R.id.buttonsCard);
         buttonsCard.setOnClickListener(view -> getButtonsStatus(() -> checkButtonsStatus()));
@@ -201,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getSdStorageStatus(){
-        // SD STORAGE
         Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
         Boolean isSDSupportedDevice = Environment.isExternalStorageRemovable();
 
