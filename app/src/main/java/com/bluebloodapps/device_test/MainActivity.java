@@ -4,19 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bluebloodapps.device_test.activities.ButtonsHardwareCheck;
+import com.bluebloodapps.device_test.activities.ChargerTest;
 import com.bluebloodapps.device_test.activities.GyroCheck;
 import com.bluebloodapps.device_test.activities.ScreenCheck;
 import com.bluebloodapps.device_test.activities.SoundCallCheck;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startTest;
 
-    private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, gyroText, wifiText, buttonsText;
+    private TextView screenTactilText, batteryText, localStorageText, externalStorageText, mainSpeakerText, callSpeakerText, gyroText, wifiText, buttonsText, chargerText;
 
     private ImageView batteryCard;
     private ImageView localStorageCard;
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView wifiCard;
     private ImageView buttonsCard;
     private ImageView gyroCard;
+    private ImageView chargerCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +65,13 @@ public class MainActivity extends AppCompatActivity {
         gyroText = findViewById(R.id.gyroText);
         wifiText = findViewById(R.id.wifiText);
         buttonsText = findViewById(R.id.buttonsText);
+        chargerText = findViewById(R.id.chargerText);
 
         ImageView screenTactilCard = this.findViewById(R.id.screenTactilCard);
         screenTactilCard.setOnClickListener(view -> getScreenStatus(() -> checkScreenStatus()));
+
+        chargerCard = this.findViewById(R.id.chargerCard);
+        chargerCard.setOnClickListener(view -> getChargerStatus(() -> checkChargerStatus()));
 
         batteryCard = this.findViewById(R.id.batteryCard);
         batteryCard.setOnClickListener(view -> getBatteryStatus());
@@ -152,19 +156,32 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkScreenStatus(){
         screenTactilText.setText(checksStatus.get(TestType.SCREEN).message);
-        screenTactilText.setTextColor(checksStatus.get(TestType.SCREEN).color);
+        screenTactilText.setTextColor(ContextCompat.getColor(this,checksStatus.get(TestType.SCREEN).color));
     }
 
-    public void getScreenStatus(ScreenCheck.ScreenCallback callback){
+    public void getScreenStatus(TestCallback callback){
         ScreenCheck.setCallback(callback);
         ScreenCheck.setMainActivity(this);
         Intent in = new Intent(this, ScreenCheck.class);
         startActivity(in);
     }
 
+    public void getChargerStatus(TestCallback callback){
+        ChargerTest.setCallback(callback);
+        ChargerTest.setMainActivity(this);
+
+        Intent in = new Intent(this, ChargerTest.class);
+        startActivity(in);
+    }
+
+    public void checkChargerStatus(){
+        chargerText.setText(checksStatus.get(TestType.CHARGER).message);
+        chargerText.setTextColor(ContextCompat.getColor(this,checksStatus.get(TestType.CHARGER).color));
+    }
+
     public void checkSoundStatus(){
         mainSpeakerText.setText(checksStatus.get(TestType.SOUND_MAIN).message);
-        mainSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_MAIN).color);
+        mainSpeakerText.setTextColor(ContextCompat.getColor(this,checksStatus.get(TestType.SOUND_MAIN).color));
     }
 
     public void getSoundStatus(TestCallback callback){
@@ -177,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkSoundCallStatus(){
         callSpeakerText.setText(checksStatus.get(TestType.SOUND_CALL).message);
-        callSpeakerText.setTextColor(checksStatus.get(TestType.SOUND_CALL).color);
+        callSpeakerText.setTextColor(ContextCompat.getColor(this,checksStatus.get(TestType.SOUND_CALL).color));
     }
 
     public void getSoundCallStatus(SoundCallCheck.SoundCallback callback){

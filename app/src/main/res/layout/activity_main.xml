@@ -463,10 +463,42 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/chargerDisplay"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/chargerCard"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:src="@drawable/bateria_02"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/chargerTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Puerto de carga"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/chargerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/grey"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 

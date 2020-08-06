@@ -198,7 +198,6 @@ public class SoundCallCheck extends AppCompatActivity {
         });
 
         randomNumber = randomString;
-        Log.d("Random", "RandomNumber: " + randomNumber);
     }
 
     public SoundCallback getCallback(){

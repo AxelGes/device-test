@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/screen"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -9,7 +8,35 @@
     android:orientation="vertical"
     android:layout_gravity="center_vertical|center_horizontal"
     android:gravity="center_vertical|center_horizontal"
-    tools:context=".activities.ScreenCheckTool">
+    tools:context=".activities.ScreenCheck">
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Empezar prueba"
+        android:textColor="@color/white"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:textSize="@dimen/_12ssp"
+        android:background="@drawable/design_rounded_button"
+        android:gravity="center"
+        android:visibility="visible"
+        android:layout_marginStart="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_40sdp"/>
 
+    <Button
+        android:id="@+id/finishBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Volver al menú"
+        android:textColor="@color/white"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:textSize="@dimen/_12ssp"
+        android:background="@drawable/design_rounded_button"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_40sdp"/>
 
 </LinearLayout>
