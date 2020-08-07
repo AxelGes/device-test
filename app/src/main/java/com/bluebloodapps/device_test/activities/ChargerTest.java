@@ -51,6 +51,9 @@ public class ChargerTest extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Status testStatus = new Status("Falta checkeo", R.color.grey_text, false);
+        mainActivity.updateTestStatus(TestType.CHARGER, testStatus);
+
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = registerReceiver(null, ifilter);
 
@@ -65,6 +68,7 @@ public class ChargerTest extends AppCompatActivity{
         continueBtn = findViewById(R.id.continueBtn);
 
         findViewById(R.id.startBtn).setOnClickListener(view -> {
+            timeText.setText("");
             findViewById(R.id.startBtn).setVisibility(View.GONE);
             timer = new CountDownTimer(5000, 1000) {
                 @Override
@@ -75,7 +79,15 @@ public class ChargerTest extends AppCompatActivity{
                     int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 
                     isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
-                    timeText.setText("Tiempo restante:\n" + ((l / 1000) + 1));
+
+                    if(!isCharging){
+                        timeText.setText("Prueba fallida. ¡No desconectes el dispositivo!");
+                        findViewById(R.id.startBtn).setVisibility(View.VISIBLE);
+                        cancel();
+                        timerRunning = false;
+                    }else{
+                        timeText.setText("Tiempo restante:\n" + ((l / 1000) + 1));
+                    }
                 }
 
                 @Override
@@ -83,13 +95,14 @@ public class ChargerTest extends AppCompatActivity{
                     if(isCharging){
                         timeText.setText("¡Prueba finalizada!");
 
-                        continueBtn.setVisibility(View.VISIBLE);
                         continueBtn.setOnClickListener(view -> {
                             finish();
                             Status status = new Status("Funcionando", R.color.green, true);
                             mainActivity.updateTestStatus(TestType.CHARGER, status);
                             callback.onSuccess();
                         });
+
+                        continueBtn.setVisibility(View.VISIBLE);
                     }else{
                         findViewById(R.id.startBtn).setVisibility(View.VISIBLE);
                         timeText.setText("¡Prueba fallida!");
