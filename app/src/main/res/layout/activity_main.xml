@@ -25,57 +25,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/_20sdp">
+        android:layout_marginTop="@dimen/_20sdp"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/groupPantallaTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pantalla"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            <TextView
+                android:id="@+id/groupPantallaTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:text="Pantalla"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/testGroupPantalla"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Verificar grupo"
-                android:paddingLeft="@dimen/_5sdp"
-                android:paddingRight="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@color/light_blue"
-                android:textStyle="bold"
-                android:textSize="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:text="Verificar grupo"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="@+id/groupPantallaTitle"
-                app:layout_constraintRight_toRightOf="parent"/>
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/groupPantallaTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout
             android:id="@+id/screenTactilDisplay"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/screenTactilCard"
-                android:layout_weight="1"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
+                android:layout_weight="1"
                 android:src="@drawable/pantalla_01"
                 tools:ignore="NestedWeights" />
 
@@ -83,17 +83,17 @@
                 android:id="@+id/screenTactilTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pantalla tactil"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="Pantalla tactil" />
 
             <TextView
                 android:id="@+id/screenTactilText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Falta checkeo"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/grey"/>
+                android:text="Falta checkeo"
+                android:textColor="@color/grey"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -298,7 +298,6 @@
 
             <LinearLayout
             android:id="@+id/localStorageDisplay"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -307,7 +306,6 @@
 
             <ImageView
                 android:id="@+id/localStorageCard"
-                android:layout_weight="1"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:src="@drawable/hdd_02"
@@ -333,7 +331,6 @@
 
             <LinearLayout
                 android:id="@+id/externalStorageDisplay"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -342,7 +339,6 @@
 
                 <ImageView
                     android:id="@+id/externalStorageCard"
-                    android:layout_weight="1"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
                     android:src="@drawable/memoria_05"
@@ -461,9 +457,9 @@
 
                 <ImageView
                     android:id="@+id/callSpeakerCard"
-                    android:layout_weight="1"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
+                    android:layout_weight="1"
                     android:src="@drawable/pantalla_01"
                     tools:ignore="NestedWeights" />
 
@@ -476,6 +472,41 @@
 
                 <TextView
                     android:id="@+id/callSpeakerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Falta checkeo"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/grey"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/microphoneDisplay"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/microphoneCard"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_weight="1"
+                    android:src="@drawable/pantalla_01"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/microphoneTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Micrófono"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/microphoneText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Falta checkeo"
@@ -645,41 +676,152 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/wifiDisplay"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/wifiCard"
-                android:layout_weight="1"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                android:src="@drawable/datos_06"
-                tools:ignore="NestedWeights" />
-
-            <TextView
-                android:id="@+id/wifiTitle"
-                android:layout_width="match_parent"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WIFI"
-                android:gravity="center"/>
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/wifiDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/wifiText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Falta checkeo"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/grey"/>
+                    <ImageView
+                        android:id="@+id/wifiCard"
+                        android:layout_weight="1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/datos_06"
+                        tools:ignore="NestedWeights" />
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/wifiTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="WIFI"
+                        android:gravity="center"/>
 
+                    <TextView
+                        android:id="@+id/wifiText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Falta checkeo"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gpsDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/gpsCard"
+                        android:layout_weight="1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/datos_06"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/gpsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GPS"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/gpsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Falta checkeo"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/mobileDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/mobileCard"
+                        android:layout_weight="1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/datos_06"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/mobileTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Red móvil"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/mobileText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Falta checkeo"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/btCard"
+                        android:layout_weight="1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/datos_06"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:id="@+id/btTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bluetooth"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/btText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Falta checkeo"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </HorizontalScrollView>
 
     </LinearLayout>
 

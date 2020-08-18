@@ -1,31 +1,19 @@
-package com.bluebloodapps.device_test.activities;
+package com.bluebloodapps.device_test.activities.hardware;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.shapes.OvalShape;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bluebloodapps.device_test.MainActivity;
 import com.bluebloodapps.device_test.R;
 import com.bluebloodapps.device_test.utils.Status;
 import com.bluebloodapps.device_test.utils.TestType;
 
-import java.util.Random;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ButtonsHardwareCheck extends Activity {

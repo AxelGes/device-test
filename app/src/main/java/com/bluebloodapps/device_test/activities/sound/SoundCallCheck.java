@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test.activities;
+package com.bluebloodapps.device_test.activities.sound;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

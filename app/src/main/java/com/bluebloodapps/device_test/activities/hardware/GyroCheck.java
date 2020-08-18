@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test.activities;
+package com.bluebloodapps.device_test.activities.hardware;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,19 +14,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Rectangle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import com.bluebloodapps.device_test.MainActivity;
 import com.bluebloodapps.device_test.R;

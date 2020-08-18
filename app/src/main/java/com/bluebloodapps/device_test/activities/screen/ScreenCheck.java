@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test.activities;
+package com.bluebloodapps.device_test.activities.screen;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bluebloodapps.device_test.MainActivity;
 import com.bluebloodapps.device_test.R;
@@ -24,11 +23,8 @@ public class ScreenCheck extends AppCompatActivity {
     int nCanvasW;
     int nCanvasH;
 
-    //int nCantCirculosH=10;
-    // int nCantCirculosW=5;
-
-    int nCantCirculosH = 40;
-    int nCantCirculosW = 20;
+    int nCantCirculosH = 20;
+    int nCantCirculosW = 10;
 
     int nPixelsCirculoH;
     int nPixelsCirculoW;
@@ -79,7 +75,6 @@ public class ScreenCheck extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     public void DrawCircles() {
-
         for (int g = 0; g < nCantCirculosH; g++) {
 
             rows[g] = new LinearLayout(this);
@@ -96,10 +91,8 @@ public class ScreenCheck extends AppCompatActivity {
 
                 circles[g][f] = new ImageView(this);
                 circles[g][f].setImageResource(R.drawable.graycircle);
-                // circles[g][f].setMinimumWidth(nPixelsCirculoW);
 
                 circles[g][f].setOnTouchListener((v, event) -> {
-
                     int x = (int) event.getRawX();
                     int y = (int) event.getRawY();
 

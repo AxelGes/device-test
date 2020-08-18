@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_gravity="center_vertical|center_horizontal"
     android:gravity="center_vertical|center_horizontal"
-    tools:context=".activities.ScreenCheck">
+    tools:context=".activities.screen.ScreenCheck">
     <Button
         android:id="@+id/startBtn"
         android:layout_width="match_parent"

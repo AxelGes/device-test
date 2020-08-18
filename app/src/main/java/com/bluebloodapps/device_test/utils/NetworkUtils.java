@@ -1,6 +1,7 @@
 package com.bluebloodapps.device_test.utils;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -24,18 +25,45 @@ public final class NetworkUtils {
         return instance;
     }
 
-    public boolean isNetworkAvailable() {
+    public boolean isMobileOn() {
         try{
             ConnectivityManager conMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo i = conMgr.getActiveNetworkInfo();
+            NetworkInfo i = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
             if (i == null) {
                 return false;
             }
-            if (!i.isConnected()) {
+            if(i.isAvailable() && i.getDetailedState() == NetworkInfo.DetailedState.CONNECTED){
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isBluetoothOn(){
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            return false;
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public boolean isWifiOn() {
+        try{
+            ConnectivityManager conMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo i = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            if (i == null) {
                 return false;
             }
-            if (!i.isAvailable()) {
-                return false;
+            if(i.isAvailable() && i.getDetailedState() == NetworkInfo.DetailedState.CONNECTED){
+                return true;
             }
         }catch (Exception e){
             return false;

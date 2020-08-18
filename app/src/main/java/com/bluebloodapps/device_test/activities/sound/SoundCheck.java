@@ -1,4 +1,4 @@
-package com.bluebloodapps.device_test.activities;
+package com.bluebloodapps.device_test.activities.sound;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
